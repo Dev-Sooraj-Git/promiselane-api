@@ -52,4 +52,5 @@ Currently in active development. Phase 1 (MVP Core) in progress.
 
 ---
 
-© 2026 PromiseLane. All rights reserved.
+<!-- © 2026 PromiseLane. All rights reserved. -->
+© 2026 Sooraj. All rights reserved.
