@@ -1,59 +1,145 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PromiseLane API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> A project governance platform for freelancers and service providers to track the full lifecycle of client work — from requirements and agreements to delivery and payment.
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-12-red?style=flat-square&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2+-blue?style=flat-square&logo=php)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-orange?style=flat-square&logo=mysql)
+![JWT](https://img.shields.io/badge/Auth-JWT-green?style=flat-square)
+![Status](https://img.shields.io/badge/Status-In%20Development-yellow?style=flat-square)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Problem Statement
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Freelancers and small service providers lack a structured system to track the full lifecycle of client work. As a result:
 
-## Learning Laravel
+- Requirements are scattered across chats, emails, and calls
+- Scope creep occurs due to unclear agreements
+- Deliverables are disputed — *"this is not what I asked"*
+- Payments are delayed or denied due to lack of proof
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+**PromiseLane connects:** What was requested → What was agreed → What was delivered → What was paid.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Tech Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Layer | Technology |
+|-------|-----------|
+| Backend Framework | Laravel 12 |
+| Language | PHP 8.2+ |
+| Database | MySQL 8.0 |
+| Authentication | JWT (tymon/jwt-auth) |
+| API Style | RESTful — versioned `/api/v1/` |
+| Frontend (upcoming) | React + Vite |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Architecture
 
-## Contributing
+- Thin Controllers → Service Classes → Eloquent Models
+- API Resources for response transformation
+- Repository pattern for data access
+- Role-based access control (RBAC)
+- Immutable activity logging
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Features (Phase 1 — In Progress)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- [x] Project scaffold — Laravel 12 + JWT setup
+- [ ] User registration & login with JWT
+- [ ] Token refresh & logout
+- [ ] Project CRUD with status management
+- [ ] Milestone tracking with payment linkage
+- [ ] Requirements management with scope flagging
+- [ ] Deliverable uploads per milestone
+- [ ] Manual payment recording & status tracking
+- [ ] Immutable activity log & timeline
+- [ ] Shareable read-only project link (token-based)
+- [ ] Dashboard — active projects, pending payments, overdue milestones
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Getting Started
+
+### Requirements
+
+- PHP 8.2+
+- Composer
+- MySQL 8.0+
+- Node.js (for frontend — upcoming)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/promiselane-api.git
+cd promiselane-api
+
+# Install dependencies
+composer install
+
+# Setup environment
+cp .env.example .env
+php artisan key:generate
+
+# Configure your database in .env
+DB_DATABASE=promiselane_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Run migrations
+php artisan migrate
+
+# Generate JWT secret
+php artisan jwt:secret
+
+# Start development server
+php artisan serve
+```
+
+---
+
+## API Structure
+
+```
+/api/v1/auth        → Register, Login, Refresh, Logout
+/api/v1/profile     → View own profile
+/api/v1/projects    → Project CRUD
+/api/v1/milestones  → Milestone management
+/api/v1/requirements→ Requirements tracking
+/api/v1/deliverables→ File uploads per milestone
+/api/v1/payments    → Payment recording
+/api/v1/activity    → Project timeline & logs
+/api/v1/share       → Shareable project links
+```
+
+---
+
+## Project Roadmap
+
+## Project Roadmap
+
+| Phase | Theme | Status |
+|-------|-------|--------|
+| Phase 1 | MVP Core — Projects, Milestones, Requirements, Timeline | 🔄 In Progress |
+| Phase 2 | Payments & Invoicing — Razorpay, GST, Receipts | ⏳ Planned |
+| Phase 3 | Client Portal & Collaboration | ⏳ Planned |
+| Phase 4 | Team & Agency Support | ⏳ Planned |
+| Phase 5 | Automation & AI | ⏳ Planned |
+| Phase 6 | Analytics & Business Intelligence | ⏳ Planned |
+| Phase 7 | Integrations & Ecosystem | ⏳ Planned |
+| Phase 8 | Enterprise & Compliance | ⏳ Planned |
+| Phase 9 | Community & Platform | ⏳ Planned |
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced under the [MIT License](LICENSE).
+
+---
+
+> Built as a portfolio project by a backend developer focused on real-world problem solving with Laravel.
