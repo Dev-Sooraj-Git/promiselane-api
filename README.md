@@ -138,8 +138,10 @@ php artisan serve
 
 ## License
 
-This project is open-sourced under the [MIT License](LICENSE).
-
 ---
 
 > Built as a portfolio project by a backend developer focused on real-world problem solving with Laravel.
+> All rights reserved. Not licensed for redistribution or commercial use.
+
+---
+
