@@ -28,7 +28,8 @@ class AuthController extends Controller
         ]);
 
         $result = $this->authService->register($request->only(['name', 'email', 'password']));
-
+        // dd(new \App\Http\Resources\UserResource($result['user']));
+        //dd((new \App\Http\Resources\UserResource($result['user']))->toArray($request));
         return response()->json([
             'success' => true,
             'message' => 'Registration successful.',
