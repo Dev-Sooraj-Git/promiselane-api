@@ -35,6 +35,13 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 401);
         });
 
+        $exceptions->render(function (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token has been logged out. Please login again.',
+            ], 401);
+        });
+
         $exceptions->render(function (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
