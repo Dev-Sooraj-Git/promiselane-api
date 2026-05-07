@@ -3,6 +3,15 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use Illuminate\Support\Facades\Route;
 
+
+// Dummy login route — prevents Authenticate middleware from crashing
+Route::get('login', function () {
+    return response()->json([
+        'success' => false,
+        'message' => 'Unauthenticated.',
+    ], 401);
+})->name('login');
+
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
