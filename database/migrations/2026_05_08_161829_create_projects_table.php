@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('client_name');
             $table->string('client_email')->nullable();
             $table->decimal('total_amount', 10, 2)->default(0.00);
-            $table->enum('status', ['Active', 'completed','cancelled'])->default('Active');
-
+            $table->enum('status', ['Active', 'Completed', 'Cancelled'])->default('Active');
+            $table->date('started_at')->nullable();
+            $table->date('completed_at')->nullable();
             $table->timestamps();
         });
     }
