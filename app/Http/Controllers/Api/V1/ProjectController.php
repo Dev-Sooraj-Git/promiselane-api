@@ -64,4 +64,14 @@ class ProjectController extends Controller
             'data' => new ProjectResource($project),
         ], 201);
     }
+
+    public function show(Project $project): JsonResponse
+    {
+        $this->authorize('view', $project);
+
+        return response()->json([
+            'success' => true,
+            'data' => new ProjectResource($this->projectService->show($project)),
+        ]);
+    }
 }
