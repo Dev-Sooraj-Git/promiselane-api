@@ -74,4 +74,37 @@ class ProjectController extends Controller
             'data' => new ProjectResource($this->projectService->show($project)),
         ]);
     }
+
+    public function update(Request $request, Project $project): JsonResponse
+    {
+        $this->authorize('update', $project);
+
+        $request->validate([
+            'title' => 'sometimes|string|max:255',
+            'description' => 'nullable|string',
+            'client_name' => 'sometimes|string|max:255',
+            'client_email' => 'nullable|email',
+            'total_amount' => 'nullable|numeric|min:0',
+            'status' => 'nullable|in:active,completed,cancelled',
+            'started_at' => 'nullable|date',
+            'completed_at' => 'nullable|date',
+        ]);
+
+        $project = $this->projectService->update($project, $request->only([
+            'title',
+            'description',
+            'client_name',
+            'client_email',
+            'total_amount',
+            'status',
+            'started_at',
+            'completed_at',
+        ]));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Project updated.',
+            'data' => new ProjectResource($project),
+        ]);
+    }
 }
