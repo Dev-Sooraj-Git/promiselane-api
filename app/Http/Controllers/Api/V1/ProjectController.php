@@ -33,4 +33,35 @@ class ProjectController extends Controller
             'data' => ProjectResource::collection($projects),
         ]);
     }
+
+    public function store(Request $request): JsonResponse
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'client_name' => 'required|string|max:255',
+            'client_email' => 'nullable|email',
+            'total_amount' => 'nullable|numeric|min:0',
+            'status' => 'nullable|in:active,completed,cancelled',
+            'started_at' => 'nullable|date',
+            'completed_at' => 'nullable|date',
+        ]);
+
+        $project = $this->projectService->create($request->only([
+            'title',
+            'description',
+            'client_name',
+            'client_email',
+            'total_amount',
+            'status',
+            'started_at',
+            'completed_at',
+        ]));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Project created.',
+            'data' => new ProjectResource($project),
+        ], 201);
+    }
 }
