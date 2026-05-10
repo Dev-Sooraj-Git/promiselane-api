@@ -2,28 +2,26 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProjectRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'title'        => 'required|string|max:255',
+            'description'  => 'nullable|string',
+            'client_name'  => 'required|string|max:255',
+            'client_email' => 'nullable|email',
+            'total_amount' => 'nullable|numeric|min:0',
+            'status'       => 'nullable|in:active,completed,cancelled',
+            'started_at'   => 'nullable|date',
+            'completed_at' => 'nullable|date|after_or_equal:started_at',
         ];
     }
 }
