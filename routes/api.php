@@ -26,6 +26,6 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:api')->group(function () {
-        Route::apiResource('projects', ProjectController::class);
+        Route::apiResource('projects', ProjectController::class);// resource will add all routes
     });
 });
