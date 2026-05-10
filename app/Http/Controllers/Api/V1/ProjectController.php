@@ -35,6 +35,7 @@ class ProjectController extends Controller
         ]);
     }
 
+    // Validation part moved to Store Project Request
     public function store(StoreProjectRequest $request): JsonResponse
     {
         $project = $this->projectService->create($request->validated());
