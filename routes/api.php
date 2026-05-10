@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\ProjectController;
 
 
 // Dummy login route — prevents Authenticate middleware from crashing
@@ -22,5 +23,9 @@ Route::prefix('v1')->group(function () {
             Route::post('refresh', [AuthController::class, 'refresh']);
             Route::post('logout', [AuthController::class, 'logout']);
         });
+    });
+
+    Route::middleware('auth:api')->group(function () {
+        Route::apiResource('projects', ProjectController::class);
     });
 });
