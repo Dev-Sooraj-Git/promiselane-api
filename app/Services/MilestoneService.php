@@ -29,4 +29,16 @@ class MilestoneService
     {
         $milestone->delete();
     }
+
+     public function updateStatus(Milestone $milestone, string $status): Milestone
+    {
+        $data = ['status' => $status];
+
+        if ($status === 'paid') {
+            $data['paid_at'] = now();
+        }
+
+        $milestone->update($data);
+        return $milestone;
+    }
 }
