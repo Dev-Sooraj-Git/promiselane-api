@@ -24,4 +24,9 @@ class MilestoneService
         $milestone->update($data);
         return $milestone;
     }
+
+     public function delete(Milestone $milestone): void
+    {
+        $milestone->delete();
+    }
 }
