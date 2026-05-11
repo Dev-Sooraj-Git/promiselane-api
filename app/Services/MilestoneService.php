@@ -7,10 +7,17 @@ use App\Models\Milestone;
 
 class MilestoneService
 {
-    public function listByProject(int $project_id)
+    // public function listByProject(int $project_id)
+    // {
+    //     return Milestone::Where('project_id', $project_id)
+    //         ->OrderBy('order_index', 'asc')
+    //         ->get();
+    // } // added by Sooraj 12-05-2026
+
+    public function listByProject(Project $project)
     {
-        return Milestone::Where('project_id', $project_id)
-            ->OrderBy('order_index', 'asc')
+        return $project->milestones()
+            ->orderBy('order_index', 'asc')
             ->get();
     }
 
