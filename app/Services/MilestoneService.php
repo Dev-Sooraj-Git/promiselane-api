@@ -23,7 +23,7 @@ class MilestoneService
 
     public function create(Project $project, array $data)
     {
-        return $project->milestone()::create($data);
+        return $project->milestones()->create($data);
     }
 
       public function update(Milestone $milestone, array $data): Milestone
