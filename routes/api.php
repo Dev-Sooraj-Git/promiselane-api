@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\MilestoneController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProjectController;
 
@@ -27,5 +28,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('projects', ProjectController::class);// resource will add all routes
+        Route::apiResource('projects.milestones', MilestoneController::class);
+        Route::patch('projects/{project}/milestones/{milestone}/status', [MilestoneController::class, 'updateStatus']);
     });
 });
