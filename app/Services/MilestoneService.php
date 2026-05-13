@@ -26,18 +26,18 @@ class MilestoneService
         return $project->milestones()->create($data);
     }
 
-      public function update(Milestone $milestone, array $data): Milestone
+    public function update(Milestone $milestone, array $data): Milestone
     {
         $milestone->update($data);
         return $milestone;
     }
 
-     public function delete(Milestone $milestone): void
+    public function delete(Milestone $milestone): void
     {
         $milestone->delete();
     }
 
-     public function updateStatus(Milestone $milestone, string $status): Milestone
+    public function updateStatus(Milestone $milestone, string $status): Milestone
     {
         $data = ['status' => $status];
 
