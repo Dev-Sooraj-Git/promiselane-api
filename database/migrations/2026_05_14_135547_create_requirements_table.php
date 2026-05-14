@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->enum('source', ['chat', 'email', 'call', 'document', 'other']);
             $table->text('content');
-            $table->enum('status', ['requested', 'agreed', 'rejected', 'pending_clarification']);
+            $table->enum('status', ['requested', 'agreed', 'rejected', 'pending_clarification'])->default('requested');
             $table->boolean('is_in_scope')->default(true);
             $table->text('clarification_notes')->nullable();
             $table->json('attachments')->nullable();
