@@ -38,4 +38,8 @@ class Project extends Model
     {
         return $this->hasMany(Milestone::class);
     }
+
+    public function requirements(){
+        return $this->hasMany(Requirement::class);
+    }
 }
