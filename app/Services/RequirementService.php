@@ -19,6 +19,12 @@ class RequirementService
 
     public function update(Requirement $requirement, array $data)
     {
-        return $requirement->update($data);
+        $requirement->update($data);
+        return $requirement;
+    }
+
+    public function delete(Requirement $requirement)
+    {
+        return $requirement->delete();
     }
 }
