@@ -7,6 +7,7 @@ use App\Http\Resources\RequirementResource;
 use App\Models\Project;
 use App\Services\RequirementService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class RequirementController extends Controller
 {
@@ -19,7 +20,7 @@ class RequirementController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(Project $project)
+    public function index(Project $project) : JsonResponse
     {
         $this->authorize('view', $project);
         $requirements = $this->RequirementService->listByProject($project);
@@ -30,7 +31,7 @@ class RequirementController extends Controller
         ]);
     }
 
-    public function store(Request $request, Project $project)
+    public function store(Request $request, Project $project) : JsonResponse
     {
         $this->authorize("update", $project);
 
@@ -40,7 +41,7 @@ class RequirementController extends Controller
             'status' => 'nullable|in:requested,agreed,rejected,pending_clarification',
             'is_in_scope' => 'nullable|boolean',
             'clarification_notes' => 'nullable|string',
-            'attachments' => 'nullable|json '
+            'attachments' => 'nullable|json'
         ]);
 
 
