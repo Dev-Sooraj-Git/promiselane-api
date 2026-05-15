@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\MilestoneController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProjectController;
-
+use App\Http\Controllers\Api\V1\RequirementController;
 
 // Dummy login route — prevents Authenticate middleware from crashing
 Route::get('login', function () {
@@ -30,5 +30,6 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('projects', ProjectController::class);// resource will add all routes
         Route::apiResource('projects.milestones', MilestoneController::class);
         Route::patch('projects/{project}/milestones/{milestone}/status', [MilestoneController::class, 'updateStatus']);
+        Route::apiResource('projects.requirements', RequirementController::class);
     });
 });
