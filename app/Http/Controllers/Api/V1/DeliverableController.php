@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DeliverableResource;
 use App\Models\Deliverable;
 use App\Models\Milestone;
+use App\Models\Project;
 use App\Services\DeliverableService;
 use Illuminate\Http\Request;
 
@@ -20,9 +21,9 @@ class DeliverableController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(Milestone $milestone)
+    public function index(Project $project, Milestone $milestone)
     {
-        $this->authorize('view', $milestone->project);
+        $this->authorize('view', $project);
 
         $deliverables = $this->deliverableService->listByMilestone($milestone);
         return response()->json([
@@ -31,9 +32,9 @@ class DeliverableController extends Controller
         ]);
     }
 
-    public function store(Request $request, Milestone $milestone)
+    public function store(Request $request, Project $project, Milestone $milestone)
     {
-        $this->authorize('update', $milestone->project);
+        $this->authorize('update', $project);
 
         $request->validate([
             'file_name' => 'required|string',
@@ -58,9 +59,9 @@ class DeliverableController extends Controller
         ], 201);
     }
 
-    public function destroy(Milestone $milestone, Deliverable $deliverable)
+    public function destroy(Project $project ,Milestone $milestone, Deliverable $deliverable)
     {
-        $this->authorize('delete', $milestone->project);
+        $this->authorize('delete', $project);
         $this->deliverableService->delete($deliverable);
         return response()->json([
             "success" => true,
