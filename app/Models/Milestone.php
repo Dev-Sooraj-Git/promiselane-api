@@ -31,4 +31,9 @@ class Milestone extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function deliverables()
+    {
+        return $this->hasMany(Deliverable::class);
+    }
 }
