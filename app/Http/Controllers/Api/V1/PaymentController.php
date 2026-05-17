@@ -50,7 +50,7 @@ class PaymentController extends Controller
             "success" => true,
             "message" => "Payment details Added",
             "data"  => new PaymentResource($payment)
-        ]);
+        ],201);
     }
 
     public function destroy(Project $project, Milestone $milestone, Payment $payment): JsonResponse
