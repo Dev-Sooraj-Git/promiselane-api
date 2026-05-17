@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\DeliverableController;
 use App\Http\Controllers\Api\V1\MilestoneController;
+use App\Http\Controllers\Api\V1\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProjectController;
 use App\Http\Controllers\Api\V1\RequirementController;
@@ -33,5 +34,6 @@ Route::prefix('v1')->group(function () {
         Route::patch('projects/{project}/milestones/{milestone}/status', [MilestoneController::class, 'updateStatus']);
         Route::apiResource('projects.requirements', RequirementController::class);
         Route::apiResource('projects.milestones.deliverables', DeliverableController::class);
+        Route::apiResource('projects.milestones.payments', PaymentController::class);
     });
 });
