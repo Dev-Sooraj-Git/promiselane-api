@@ -68,4 +68,22 @@ class ProjectService
 
         $project->delete();
     }
+
+    public function generateShareToken(Project $project): string
+    {
+        $token = Str::uuid()->toString();
+        $project->update(['share_token' => $token]);
+
+        return $token;
+    }
+
+    public function revokeShareToken(Project $project): void
+    {
+        $project->update(['share_token' => null]);
+    }
+
+    public function findByShareToken(string $token): ?Project
+    {
+        return Project::where('share_token', $token)->first();
+    }
 }
