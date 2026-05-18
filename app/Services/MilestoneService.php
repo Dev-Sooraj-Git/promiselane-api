@@ -23,17 +23,35 @@ class MilestoneService
 
     public function create(Project $project, array $data)
     {
-        return $project->milestones()->create($data);
+        $milestone = $project->milestones()->create($data);
+
+        app(TimelineService::class)->log(
+            $project,
+            'milestone_created',
+            "Milestone '{$milestone->title}' added"
+        );
+
+        return $milestone;
     }
 
     public function update(Milestone $milestone, array $data): Milestone
     {
         $milestone->update($data);
+        app(TimelineService::class)->log(
+            $milestone->project,
+            'milestone_updated',
+            "Milestone '{$milestone->title}' updated"
+        );
         return $milestone;
     }
 
     public function delete(Milestone $milestone): void
     {
+        app(TimelineService::class)->log(
+            $milestone->project,
+            'milestone_deleted',
+            "Milestone '{$milestone->title}' deleted"
+        );
         $milestone->delete();
     }
 
@@ -46,6 +64,11 @@ class MilestoneService
         }
 
         $milestone->update($data);
+        app(TimelineService::class)->log(
+            $milestone->project,
+            'milestone_status_updated',
+            "Milestone '{$milestone->title}' marked as '{$status}'"
+        );
         return $milestone;
     }
 }

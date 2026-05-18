@@ -15,11 +15,24 @@ class DeliverableService
 
     public function create(Milestone $milestone, array $data)
     {
-        return $milestone->deliverables()->create($data);
+        $deliverable = $milestone->deliverables()->create($data);
+
+        app(TimelineService::class)->log(
+            $milestone->project,
+            'deliverable_uploaded',
+            "File '{$deliverable->file_name}' uploaded to milestone '{$milestone->title}'"
+        );
+
+        return $deliverable;
     }
 
     public function delete(Deliverable $deliverable)
     {
+        app(TimelineService::class)->log(
+            $deliverable->milestone->project,
+            'deliverable_deleted',
+            "File '{$deliverable->file_name}' deleted from milestone '{$deliverable->milestone->title}'"
+        );
         return $deliverable->delete();
     }
 }
