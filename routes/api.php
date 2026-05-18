@@ -29,7 +29,7 @@ Route::prefix('v1')->group(function () {
             Route::post('logout', [AuthController::class, 'logout']);
         });
     });
-
+    Route::get('share/{token}', [ShareController::class, 'show']);
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('projects', ProjectController::class); // resource will add all routes
         Route::apiResource('projects.milestones', MilestoneController::class);
@@ -38,14 +38,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('projects.milestones.deliverables', DeliverableController::class);
         Route::apiResource('projects.milestones.payments', PaymentController::class);
         Route::get('projects/{project}/timeline', [TimelineController::class, 'index']);
+        Route::post('projects/{project}/share', [ShareController::class, 'generate']);
+        Route::delete('projects/{project}/share', [ShareController::class, 'revoke']);
     });
-});
-
-Route::prefix('share')->group(function () {
-    Route::get('{token}', [ShareController::class, 'show']);
-});
-
-Route::middleware('auth:api')->group(function () {
-    Route::post('projects/{project}/share', [ShareController::class, 'generate']);
-    Route::delete('projects/{project}/share', [ShareController::class, 'revoke']);
 });
