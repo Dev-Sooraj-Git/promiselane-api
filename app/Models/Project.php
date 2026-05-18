@@ -14,6 +14,7 @@ class Project extends Model
         'total_amount',
         'status',
         'started_at',
+        'share_token',
         'completed_at'
     ];
 

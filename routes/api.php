@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProjectController;
 use App\Http\Controllers\Api\V1\RequirementController;
 use App\Http\Controllers\Api\V1\TimelineController;
+use App\Http\Controllers\Api\V1\ShareController;
+
 // Dummy login route — prevents Authenticate middleware from crashing
 Route::get('login', function () {
     return response()->json([
@@ -27,14 +29,16 @@ Route::prefix('v1')->group(function () {
             Route::post('logout', [AuthController::class, 'logout']);
         });
     });
-
+    Route::get('share/{token}', [ShareController::class, 'show']);
     Route::middleware('auth:api')->group(function () {
-        Route::apiResource('projects', ProjectController::class);// resource will add all routes
+        Route::apiResource('projects', ProjectController::class); // resource will add all routes
         Route::apiResource('projects.milestones', MilestoneController::class);
         Route::patch('projects/{project}/milestones/{milestone}/status', [MilestoneController::class, 'updateStatus']);
         Route::apiResource('projects.requirements', RequirementController::class);
         Route::apiResource('projects.milestones.deliverables', DeliverableController::class);
         Route::apiResource('projects.milestones.payments', PaymentController::class);
         Route::get('projects/{project}/timeline', [TimelineController::class, 'index']);
+        Route::post('projects/{project}/share', [ShareController::class, 'generate']);
+        Route::delete('projects/{project}/share', [ShareController::class, 'revoke']);
     });
 });
