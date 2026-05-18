@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Project;
 use App\Models\Milestone;
-use App\Services\TimelineService;
 
 class MilestoneService
 {
