@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Project;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Services\TimelineService;
 
 
 class ProjectService
@@ -24,8 +25,16 @@ class ProjectService
     {
 
         $data['user_id'] = Auth::id();
-        $data['slug'] = Str::slug($data['title'] . '-' . Str::random(6));
-        return Project::create($data);
+        $data['slug'] = Str::slug($data['title']) . '-' . Str::random(6);
+        $project = Project::create($data);
+
+        app(TimelineService::class)->log(
+            $project,
+            'project_created',
+            "Project '{$project->title}' created"
+        );
+
+        return $project;
     }
 
     public function show(Project $project)
@@ -40,11 +49,24 @@ class ProjectService
         }
 
         $project->update($data);
+
+        app(TimelineService::class)->log(
+            $project,
+            'project_updated',
+            "Project '{$project->title}' updated"
+        );
+
         return $project;
     }
 
     public function delete(Project $project): void
     {
+        app(TimelineService::class)->log(
+            $project,
+            'project_deleted',
+            "Project '{$project->title}' deleted"
+        );
+
         $project->delete();
     }
 }
