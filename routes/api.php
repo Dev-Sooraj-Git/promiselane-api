@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\V1\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProjectController;
 use App\Http\Controllers\Api\V1\RequirementController;
-
+use App\Http\Controllers\Api\V1\TimelineController;
 // Dummy login route — prevents Authenticate middleware from crashing
 Route::get('login', function () {
     return response()->json([
@@ -35,5 +35,6 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('projects.requirements', RequirementController::class);
         Route::apiResource('projects.milestones.deliverables', DeliverableController::class);
         Route::apiResource('projects.milestones.payments', PaymentController::class);
+        Route::get('projects/{project}/timeline', [TimelineController::class, 'index']);
     });
 });
