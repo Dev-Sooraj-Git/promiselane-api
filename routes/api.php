@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\ProjectController;
 use App\Http\Controllers\Api\V1\RequirementController;
 use App\Http\Controllers\Api\V1\TimelineController;
 use App\Http\Controllers\Api\V1\ShareController;
+use App\Http\Controllers\Api\V1\DashboardController;
 
 // Dummy login route — prevents Authenticate middleware from crashing
 Route::get('login', function () {
@@ -40,5 +41,6 @@ Route::prefix('v1')->group(function () {
         Route::get('projects/{project}/timeline', [TimelineController::class, 'index']);
         Route::post('projects/{project}/share', [ShareController::class, 'generate']);
         Route::delete('projects/{project}/share', [ShareController::class, 'revoke']);
+        Route::get('dashboard', [DashboardController::class, 'index']);
     });
 });
