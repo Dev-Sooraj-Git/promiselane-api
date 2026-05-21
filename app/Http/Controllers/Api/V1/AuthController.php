@@ -22,9 +22,16 @@ class AuthController extends Controller
     public function register(Request $request): JsonResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'name' => 'required|string|min:2|max:255|regex:/^[a-zA-Z\s]+$/',
+            'email' => 'required|email:rfc,dns|unique:users|max:255',
+            'password' => 'required|string|min:8|max:64|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+        ], [
+            'name.regex' => 'Name can only contain letters and spaces.',
+            'name.min' => 'Name must be at least 2 characters.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email is already registered.',
+            'password.regex' => 'Password must contain uppercase, lowercase, number, and special character.',
+            'password.min' => 'Password must be at least 8 characters.',
         ]);
 
         $result = $this->authService->register($request->only(['name', 'email', 'password']));
