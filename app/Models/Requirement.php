@@ -8,6 +8,7 @@ class Requirement extends Model
 {
     protected $fillable = [
         'project_id',
+        'milestone_id',
         'source',
         'content',
         'status',
@@ -27,5 +28,10 @@ class Requirement extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function milestone()
+    {
+        return $this->belongsTo(Milestone::class);
     }
 }

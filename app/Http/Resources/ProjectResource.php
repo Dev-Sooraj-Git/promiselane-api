@@ -14,7 +14,7 @@ class ProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-         return [
+        return [
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
@@ -26,6 +26,10 @@ class ProjectResource extends JsonResource
             'started_at' => $this->started_at,
             'completed_at' => $this->completed_at,
             'created_at' => $this->created_at,
+            'milestones_total' => $this->milestones()->count(),
+            'milestones_completed' => $this->milestones()->whereIn('status', ['approved', 'paid'])->count(),
+            'next_milestone' => $this->milestones()->whereNotIn('status', ['paid', 'cancelled'])->orderBy('due_date')->first()?->title,
+            'next_due_date' => $this->milestones()->whereNotIn('status', ['paid', 'cancelled'])->orderBy('due_date')->first()?->due_date,
         ];
     }
 }
