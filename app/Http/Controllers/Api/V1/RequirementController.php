@@ -37,6 +37,7 @@ class RequirementController extends Controller
         $this->authorize("update", $project);
 
         $request->validate([
+            'milestone_id' => 'nullable|exists:milestones,id',
             'content' => 'required|string',
             'source' => 'required|in:chat,email,call,document,other',
             'status' => 'nullable|in:requested,agreed,rejected,pending_clarification',
@@ -47,6 +48,7 @@ class RequirementController extends Controller
 
 
         $requirement = $this->RequirementService->create($project, $request->only([
+            'milestone_id',
             'content',
             'source',
             'status',
@@ -76,6 +78,7 @@ class RequirementController extends Controller
     {
         $this->authorize("update", $project);
         $request->validate([
+            'milestone_id' => 'nullable|exists:milestones,id',
             'content' => 'sometimes|string',
             'source' => 'sometimes|in:chat,email,call,document,other',
             'status' => 'nullable|in:requested,agreed,rejected,pending_clarification',
@@ -85,6 +88,7 @@ class RequirementController extends Controller
         ]);
 
         $requirement = $this->RequirementService->update($requirement, $request->only([
+            'milestone_id',
             'content',
             'source',
             'status',
