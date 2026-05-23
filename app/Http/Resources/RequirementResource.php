@@ -17,6 +17,7 @@ class RequirementResource extends JsonResource
         return [
             "id" => $this->id,
             "project_id" => $this->project_id,
+            "milestone_id" => $this->milestone_id,
             "source" => $this->source,
             "content" => $this->content,
             "status" => $this->status,
