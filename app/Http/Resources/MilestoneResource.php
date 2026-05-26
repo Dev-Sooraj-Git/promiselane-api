@@ -24,7 +24,8 @@ class MilestoneResource extends JsonResource
             'status' => $this->status,
             'order_index' => $this->order_index,
             'paid_at' => $this->paid_at,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'requirements' => RequirementResource::collection($this->whenLoaded('requirements')),
         ];
     }
 }
