@@ -86,4 +86,24 @@ class ProjectService
     {
         return Project::where('share_token', $token)->first();
     }
+
+    public function getShareData(Project $project)
+    {
+        $milestones = $project->milestones()
+            ->with('requirements')
+            ->orderBy('order_index')
+            ->get();
+
+        $timeline = $project->timelineEvents()
+            ->with('user:id,name')
+            ->latest()
+            ->limit(10)
+            ->get();
+
+        return [
+            'project' => $project,
+            'milestones' => $milestones,
+            'timeline' => $timeline,
+        ];
+    }
 }
