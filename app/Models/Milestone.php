@@ -41,4 +41,9 @@ class Milestone extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function requirements()
+    {
+        return $this->hasMany(Requirement::class);
+    }
 }
