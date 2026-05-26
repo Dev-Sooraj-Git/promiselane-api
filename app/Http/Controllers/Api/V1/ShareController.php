@@ -8,6 +8,8 @@ use App\Models\Project;
 use App\Services\ProjectService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\MilestoneResource;
+use App\Http\Resources\TimelineEventResource;
 
 class ShareController extends Controller
 {
@@ -58,9 +60,15 @@ class ShareController extends Controller
             ], 404);
         }
 
+        $data = $this->projectService->getShareData($project);
+
         return response()->json([
             'success' => true,
-            'data' => new ProjectResource($project),
+            'data' => [
+                'project' => new ProjectResource($data['project']),
+                'milestones' => MilestoneResource::collection($data['milestones']),
+                'timeline' => TimelineEventResource::collection($data['timeline']),
+            ],
         ]);
     }
 }
