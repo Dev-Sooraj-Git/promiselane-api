@@ -74,6 +74,12 @@ class AuthService
         return true;
     }
 
+    public function updateProfile(User $user, array $data): User
+    {
+        $user->update($data);
+        return $user;
+    }
+
     public function logout(): void
     {
         Auth::guard('api')->logout();

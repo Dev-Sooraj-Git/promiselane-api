@@ -120,6 +120,21 @@ class AuthController extends Controller
         ]);
     }
 
+    public function updateProfile(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|string|min:2|max:255',
+        ]);
+
+        $user = $this->authService->updateProfile(Auth::user(), $request->only('name'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile updated successfully.',
+            'data' => new UserResource($user),
+        ]);
+    }
+
     public function logout(): JsonResponse
     {
         $this->authService->logout();
