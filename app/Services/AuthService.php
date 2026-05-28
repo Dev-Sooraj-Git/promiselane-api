@@ -49,13 +49,29 @@ class AuthService
 
     public function refresh(): array
     {
-        $newToken = Auth::guard('api')->refresh();
+        /** @var \Tymon\JWTAuth\JWTGuard $guard */
+        $guard = Auth::guard('api');
+        $newToken = $guard->refresh();
+        // ...
 
         return [
             'token' => $newToken,
             'token_type' => 'bearer',
             'expires_in' => JWTAuth::factory()->getTTL() * 60,
         ];
+    }
+
+    public function changePassword(User $user, string $currentPassword, string $newPassword): bool|string
+    {
+        if (!Hash::check($currentPassword, $user->password)) {
+            return 'Current password is incorrect.';
+        }
+
+        $user->update([
+            'password' => Hash::make($newPassword),
+        ]);
+
+        return true;
     }
 
     public function logout(): void

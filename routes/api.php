@@ -42,5 +42,6 @@ Route::prefix('v1')->group(function () {
         Route::post('projects/{project}/share', [ShareController::class, 'generate']);
         Route::delete('projects/{project}/share', [ShareController::class, 'revoke']);
         Route::get('dashboard', [DashboardController::class, 'index']);
+        Route::post('auth/change-password', [AuthController::class, 'changePassword']);
     });
 });
