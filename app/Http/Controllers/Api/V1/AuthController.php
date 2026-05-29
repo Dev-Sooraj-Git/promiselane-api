@@ -8,6 +8,9 @@ use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -88,6 +91,47 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Token refreshed.',
             'data' => $result,
+        ]);
+    }
+
+    public function changePassword(Request $request): JsonResponse
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $result = $this->authService->changePassword(
+            Auth::user(),
+            $request->current_password,
+            $request->new_password
+        );
+
+        if ($result !== true) {
+            return response()->json([
+                'success' => false,
+                'message' => $result,
+            ], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password changed successfully.',
+        ]);
+    }
+
+    public function updateProfile(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|string|min:2|max:255',
+        ]);
+
+        $user = $this->authService->updateProfile(Auth::user(), $request->only('name'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile updated successfully.',
+            'data' => new UserResource($user),
         ]);
     }
 
