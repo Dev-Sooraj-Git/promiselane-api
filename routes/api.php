@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V1\RequirementController;
 use App\Http\Controllers\Api\V1\TimelineController;
 use App\Http\Controllers\Api\V1\ShareController;
 use App\Http\Controllers\Api\V1\DashboardController;
+use App\Http\Controllers\Api\V1\FeedbackController;
 
 // Dummy login route — prevents Authenticate middleware from crashing
 Route::get('login', function () {
@@ -44,5 +45,6 @@ Route::prefix('v1')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index']);
         Route::post('auth/change-password', [AuthController::class, 'changePassword']);
         Route::put('auth/profile', [AuthController::class, 'updateProfile']);
+        Route::post('feedback', [FeedbackController::class, 'store']);
     });
 });
