@@ -26,7 +26,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|min:2|max:255|regex:/^[a-zA-Z\s]+$/',
-            'email' => 'required|email:rfc|unique:users|max:255',
+            'email' => 'required|email:rfc|unique:users|max:255',// dns check removedi
             'password' => 'required|string|min:8|max:64|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
         ], [
             'name.regex' => 'Name can only contain letters and spaces.',
