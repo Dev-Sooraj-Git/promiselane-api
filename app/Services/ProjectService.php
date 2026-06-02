@@ -106,7 +106,7 @@ class ProjectService
             ->get();
 
         return [
-            'project' => $project,
+            'project' => $project->load('user'),
             'milestones' => $milestones,
             'timeline' => $timeline,
             'payments' => $payments,
