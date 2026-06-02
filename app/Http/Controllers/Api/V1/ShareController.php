@@ -68,6 +68,7 @@ class ShareController extends Controller
                 'project' => new ProjectResource($data['project']),
                 'milestones' => MilestoneResource::collection($data['milestones']),
                 'timeline' => TimelineEventResource::collection($data['timeline']),
+                'payments' => $data['payments'],
             ],
         ]);
     }
