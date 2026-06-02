@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Project;
+use App\Models\Payment;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -100,10 +101,15 @@ class ProjectService
             ->limit(10)
             ->get();
 
+        $payments = Payment::whereIn('milestone_id', $milestones->pluck('id'))
+            ->orderBy('paid_at', 'desc')
+            ->get();
+
         return [
-            'project' => $project,
+            'project' => $project->load('user'),
             'milestones' => $milestones,
             'timeline' => $timeline,
+            'payments' => $payments,
         ];
     }
 }

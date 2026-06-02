@@ -37,7 +37,18 @@ class PaymentController extends Controller
         $this->authorize('update', $project);
 
         $request->validate([
-            'amount' => 'required|numeric|min:0',
+            'amount' => [
+                'required',
+                'numeric',
+                'min:1',
+                function ($attribute, $value, $fail) use ($milestone) {
+                    $alreadyPaid = $milestone->payments()->sum('amount');
+                    $remaining = $milestone->amount - $alreadyPaid;
+                    if ($value > $remaining) {
+                        $fail("Amount ₹{$value} exceeds remaining balance of ₹{$remaining} for this milestone.");
+                    }
+                },
+            ],
             'paid_at' => 'required|date',
             'method' => 'required|in:bank_transfer,upi,cash,other',
             'reference' => 'nullable|string',
@@ -50,7 +61,7 @@ class PaymentController extends Controller
             "success" => true,
             "message" => "Payment details Added",
             "data"  => new PaymentResource($payment)
-        ],201);
+        ], 201);
     }
 
     public function destroy(Project $project, Milestone $milestone, Payment $payment): JsonResponse

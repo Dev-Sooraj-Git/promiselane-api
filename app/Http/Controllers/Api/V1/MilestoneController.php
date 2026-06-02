@@ -41,7 +41,22 @@ class MilestoneController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'amount' => 'nullable|numeric|min:0',
+            'amount' => [
+                'required',
+                'numeric',
+                'min:1',
+                function ($attribute, $value, $fail) use ($project, $request) {
+                    $milestoneId = $request->route('milestone'); // null for new, id for update
+                    $otherMilestonesTotal = $project->milestones()
+                        ->when($milestoneId, fn($q) => $q->where('id', '!=', $milestoneId))
+                        ->sum('amount');
+
+                    $newTotal = $otherMilestonesTotal + $value;
+                    if ($newTotal > $project->total_amount) {
+                        $fail("Total milestones (₹{$newTotal}) exceeds project budget of ₹{$project->total_amount}.");
+                    }
+                },
+            ],
             'due_date' => 'nullable|date',
             'status' => 'nullable|in:pending,in_progress,delivered,approved,paid',
             'order_index' => 'nullable|integer|min:0',
@@ -75,7 +90,22 @@ class MilestoneController extends Controller
         $request->validate([
             'title' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'amount' => 'nullable|numeric|min:0',
+            'amount' => [
+                'required',
+                'numeric',
+                'min:1',
+                function ($attribute, $value, $fail) use ($project, $request) {
+                    $milestoneId = $request->route('milestone'); // null for new, id for update
+                    $otherMilestonesTotal = $project->milestones()
+                        ->when($milestoneId, fn($q) => $q->where('id', '!=', $milestoneId))
+                        ->sum('amount');
+
+                    $newTotal = $otherMilestonesTotal + $value;
+                    if ($newTotal > $project->total_amount) {
+                        $fail("Total milestones (₹{$newTotal}) exceeds project budget of ₹{$project->total_amount}.");
+                    }
+                },
+            ],
             'due_date' => 'nullable|date',
             'status' => 'nullable|in:pending,in_progress,delivered,approved,paid',
             'order_index' => 'nullable|integer|min:0'

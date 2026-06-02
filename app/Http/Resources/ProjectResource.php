@@ -30,6 +30,9 @@ class ProjectResource extends JsonResource
             'milestones_completed' => $this->milestones()->whereIn('status', ['approved', 'paid'])->count(),
             'next_milestone' => $this->milestones()->whereNotIn('status', ['paid', 'cancelled'])->orderBy('due_date')->first()?->title,
             'next_due_date' => $this->milestones()->whereNotIn('status', ['paid', 'cancelled'])->orderBy('due_date')->first()?->due_date,
+            'user' => $this->whenLoaded('user', fn() => [
+                'name' => $this->user->name,
+            ]),
         ];
     }
 }
