@@ -24,7 +24,7 @@ class ProjectController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $projects = $this->projectService->list(
+        $projects = $this->projectService->listByUser(
             Auth::id(),
             $request->query('status')
         );

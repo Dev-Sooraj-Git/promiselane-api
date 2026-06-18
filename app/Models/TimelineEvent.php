@@ -18,7 +18,7 @@ class TimelineEvent extends Model
     protected function casts()
     {
         return [
-            'metadata' => 'json',
+            'metadata' => 'array',
         ];
     }
 
