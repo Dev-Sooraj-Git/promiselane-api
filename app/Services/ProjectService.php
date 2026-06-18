@@ -13,7 +13,7 @@ class ProjectService
     /**
      * Create a new class instance.
      */
-    public function List(int $userId, string $status = null)
+    public function listByUser(int $userId, string $status = null)
     {
         return Project::Where('user_id', $userId)
             ->When($status, fn($q) => $q->where('status', $status))
