@@ -21,7 +21,7 @@ class Requirement extends Model
     {
         return [
             'is_in_scope' => 'boolean',
-            'attachments' => 'json'
+            'attachments' => 'array'
         ];
     }
 
