@@ -14,6 +14,10 @@ class ProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $nextMilestone = $this->relationLoaded('nextMilestone')
+            ? $this->nextMilestone
+            : $this->nextMilestone()->first();
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -26,10 +30,10 @@ class ProjectResource extends JsonResource
             'started_at' => $this->started_at,
             'completed_at' => $this->completed_at,
             'created_at' => $this->created_at,
-            'milestones_total' => $this->milestones()->count(),
-            'milestones_completed' => $this->milestones()->whereIn('status', ['approved', 'paid'])->count(),
-            'next_milestone' => $this->milestones()->whereNotIn('status', ['paid', 'cancelled'])->orderBy('due_date')->first()?->title,
-            'next_due_date' => $this->milestones()->whereNotIn('status', ['paid', 'cancelled'])->orderBy('due_date')->first()?->due_date,
+            'milestones_total' => $this->milestones_total ?? $this->milestones()->count(),
+            'milestones_completed' => $this->milestones_completed ?? $this->milestones()->whereIn('status', ['approved', 'paid'])->count(),
+            'next_milestone' => $nextMilestone?->title,
+            'next_due_date' => $nextMilestone?->due_date,
             'user' => $this->whenLoaded('user', fn() => [
                 'name' => $this->user->name,
             ]),

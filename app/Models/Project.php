@@ -48,4 +48,12 @@ class Project extends Model
     {
         return $this->hasMany(TimelineEvent::class);
     }
+
+    public function nextMilestone()
+    {
+        return $this->hasOne(Milestone::class)
+            ->whereIn('status', ['pending', 'in_progress', 'delivered'])
+            ->whereNotNull('due_date')
+            ->oldestOfMany('due_date');
+    }
 }
