@@ -34,7 +34,7 @@ Route::prefix('v1')->group(function () {
     Route::get('share/{token}', [ShareController::class, 'show']);
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('projects', ProjectController::class); // resource will add all routes
-        Route::apiResource('projects.milestones', MilestoneController::class);
+        Route::apiResource('projects.milestones', MilestoneController::class)->scoped(); // Ensures milestone belongs to the given project
         Route::patch('projects/{project}/milestones/{milestone}/status', [MilestoneController::class, 'updateStatus']);
         Route::apiResource('projects.requirements', RequirementController::class);
         Route::apiResource('projects.milestones.deliverables', DeliverableController::class);
