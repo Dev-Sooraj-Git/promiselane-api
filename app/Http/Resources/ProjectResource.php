@@ -14,10 +14,9 @@ class ProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $nextMilestone = $this->milestones()
-            ->whereNotIn('status', ['paid', 'cancelled'])
-            ->orderBy('due_date')
-            ->first();
+        $nextMilestone = $this->relationLoaded('nextMilestone')
+            ? $this->nextMilestone
+            : $this->nextMilestone()->first();
 
         return [
             'id' => $this->id,

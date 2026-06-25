@@ -16,6 +16,7 @@ class ProjectService
     public function listByUser(int $userId, string $status = null)
     {
         return Project::Where('user_id', $userId)
+            ->with('nextMilestone')
             ->withCount([
                 'milestones as milestones_total',
                 'milestones as milestones_completed' => function ($query) {
