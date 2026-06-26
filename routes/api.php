@@ -36,9 +36,9 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('projects', ProjectController::class); // resource will add all routes
         Route::apiResource('projects.milestones', MilestoneController::class)->scoped(); // Ensures milestone belongs to the given project
         Route::patch('projects/{project}/milestones/{milestone}/status', [MilestoneController::class, 'updateStatus']);
-        Route::apiResource('projects.requirements', RequirementController::class);
-        Route::apiResource('projects.milestones.deliverables', DeliverableController::class);
-        Route::apiResource('projects.milestones.payments', PaymentController::class);
+        Route::apiResource('projects.requirements', RequirementController::class)->scoped(); // Ensures requirement belongs to the given project
+        Route::apiResource('projects.milestones.deliverables', DeliverableController::class)->scoped(); // Ensures deliverable belongs to the given milestone
+        Route::apiResource('projects.milestones.payments', PaymentController::class)->scoped(); // Ensures payment belongs to the given milestone
         Route::get('projects/{project}/timeline', [TimelineController::class, 'index']);
         Route::post('projects/{project}/share', [ShareController::class, 'generate']);
         Route::delete('projects/{project}/share', [ShareController::class, 'revoke']);
