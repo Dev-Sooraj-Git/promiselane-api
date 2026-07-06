@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\TimelineController;
 use App\Http\Controllers\Api\V1\ShareController;
 use App\Http\Controllers\Api\V1\DashboardController;
 use App\Http\Controllers\Api\V1\FeedbackController;
+use App\Http\Controllers\Api\V1\PasswordResetController;
 
 // Dummy login route — prevents Authenticate middleware from crashing
 Route::get('login', function () {
@@ -24,6 +25,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
         Route::post('login', [AuthController::class, 'login']);
+        Route::post('forgot-password', [PasswordResetController::class, 'forgetPassword'])->middleware('throttle:5,1');
+        Route::post('reset-password', [PasswordResetController::class, 'resetPassword'])->middleware('throttle:5,1');
 
         Route::middleware('auth:api')->group(function () {
             Route::get('me', [AuthController::class, 'me']);
