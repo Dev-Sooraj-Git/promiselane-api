@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\TimelineController;
 use App\Http\Controllers\Api\V1\ShareController;
 use App\Http\Controllers\Api\V1\DashboardController;
 use App\Http\Controllers\Api\V1\FeedbackController;
+use App\Http\Controllers\Api\V1\PasswordResetController;
 
 // Dummy login route — prevents Authenticate middleware from crashing
 Route::get('login', function () {
@@ -24,6 +25,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthController::class, 'register']);
         Route::post('login', [AuthController::class, 'login']);
+        Route::post('forgot-password', [PasswordResetController::class, 'forgotPassword'])->middleware('throttle:5,1');
+        Route::post('reset-password', [PasswordResetController::class, 'resetPassword'])->middleware('throttle:5,1');
 
         Route::middleware('auth:api')->group(function () {
             Route::get('me', [AuthController::class, 'me']);
@@ -34,11 +37,11 @@ Route::prefix('v1')->group(function () {
     Route::get('share/{token}', [ShareController::class, 'show']);
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('projects', ProjectController::class); // resource will add all routes
-        Route::apiResource('projects.milestones', MilestoneController::class);
+        Route::apiResource('projects.milestones', MilestoneController::class)->scoped(); // Ensures milestone belongs to the given project
         Route::patch('projects/{project}/milestones/{milestone}/status', [MilestoneController::class, 'updateStatus']);
-        Route::apiResource('projects.requirements', RequirementController::class);
-        Route::apiResource('projects.milestones.deliverables', DeliverableController::class);
-        Route::apiResource('projects.milestones.payments', PaymentController::class);
+        Route::apiResource('projects.requirements', RequirementController::class)->scoped(); // Ensures requirement belongs to the given project
+        Route::apiResource('projects.milestones.deliverables', DeliverableController::class)->scoped(); // Ensures deliverable belongs to the given milestone
+        Route::apiResource('projects.milestones.payments', PaymentController::class)->scoped(); // Ensures payment belongs to the given milestone
         Route::get('projects/{project}/timeline', [TimelineController::class, 'index']);
         Route::post('projects/{project}/share', [ShareController::class, 'generate']);
         Route::delete('projects/{project}/share', [ShareController::class, 'revoke']);

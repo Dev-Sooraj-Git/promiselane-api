@@ -9,6 +9,7 @@ use App\Models\Requirement;
 use App\Services\RequirementService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 class RequirementController extends Controller
 {
@@ -35,9 +36,8 @@ class RequirementController extends Controller
     public function store(Request $request, Project $project): JsonResponse
     {
         $this->authorize("update", $project);
-
         $request->validate([
-            'milestone_id' => 'nullable|exists:milestones,id',
+            'milestone_id' => ['nullable', Rule::exists('milestones', 'id')->where('project_id', $project->id)],
             'content' => 'required|string',
             'source' => 'required|in:chat,email,call,document,other',
             'status' => 'nullable|in:requested,agreed,rejected,pending_clarification',
@@ -78,7 +78,7 @@ class RequirementController extends Controller
     {
         $this->authorize("update", $project);
         $request->validate([
-            'milestone_id' => 'nullable|exists:milestones,id',
+            'milestone_id' => ['nullable', Rule::exists('milestones', 'id')->when('project_id', $project->id)],
             'content' => 'sometimes|string',
             'source' => 'sometimes|in:chat,email,call,document,other',
             'status' => 'nullable|in:requested,agreed,rejected,pending_clarification',
