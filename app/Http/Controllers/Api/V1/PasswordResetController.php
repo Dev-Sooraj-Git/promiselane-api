@@ -43,7 +43,7 @@ class PasswordResetController extends Controller
                     'required',
                     'string',
                     'confirmed',
-                    PasswordRule::min(8)->letters()->numbers()->symbols(),
+                    PasswordRule::min(8)->letters()->mixedCase()->numbers()->symbols(),
                 ],
             ],
         );
